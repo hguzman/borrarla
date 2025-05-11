@@ -32,3 +32,5 @@ Por favor validar el cambio
 ## Correcto
 
 Rama 2
+
+Ahora cumple
