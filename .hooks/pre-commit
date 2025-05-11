@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "🔍 Ejecutando pre-commit: limpieza básica..."
+
+# Archivos staged relevantes
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts|rb|py|sh|dart|go)$')
+
+if [ -z "$FILES" ]; then
+  echo "✅ No hay archivos relevantes para verificar."
+  exit 0
+fi
+
+FAIL=0
+
+for FILE in $FILES; do
+  # Validar espacios al final de línea
+  if grep -q '[[:blank:]]$' "$FILE"; then
+    echo "❌ Espacios al final de línea detectados en $FILE"
+    FAIL=1
+  fi
+
+  # Validar que el archivo termine con salto de línea
+  if [ -n "$(tail -c1 "$FILE")" ]; then
+    echo "❌ $FILE no termina con salto de línea"
+    FAIL=1
+  fi
+done
+
+[ $FAIL -eq 0 ] && echo "✅ pre-commit aprobado" || exit 1
