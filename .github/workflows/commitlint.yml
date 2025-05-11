@@ -1,26 +1,15 @@
-name: Commit Lint
+name: Lint PR Commits
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  commitlint:
-    name: Lint PR Commits
+  lint-commits:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install commitlint
-        run: npm install --save-dev @commitlint/{config-conventional,cli}
-
-      - name: Run commitlint on PR commits
-        run: |
-          npx --no-install commitlint --from=$GITHUB_BASE_REF --to=HEAD
+      - uses: wagoid/commitlint-github-action@v5
 
