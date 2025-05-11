@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "🔍 Ejecutando pre-push: validación de commits"
+
+PATTERN='^(feat|fix|docs|style|refactor|perf|test|chore)(\([\\w\\-]+\\))?: .+'
+
+COMMITS=$(git log @{u}..HEAD --pretty=format:"%s")
+
+if [ -z "$COMMITS" ]; then
+  echo "✅ Nada nuevo que validar"
+  exit 0
+fi
+
+for COMMIT in $COMMITS; do
+  if ! echo "$COMMIT" | grep -qE "$PATTERN"; then
+    echo "❌ Commit inválido: $COMMIT"
+    echo "Los commits deben seguir Conventional Commits"
+    exit 1
+  fi
+done
+
+echo "✅ pre-push aprobado"
