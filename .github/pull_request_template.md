@@ -16,7 +16,7 @@ _Describe brevemente lo que hace este PR._
 
 ---
 
-### 📦 Mensaje de squash sugerido
+### 📦 Mensaje de commit sugerido
 
 ```txt
 <tipo>(<módulo>): breve descripción
